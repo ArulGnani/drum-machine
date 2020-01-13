@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- react  -->
+    <script crossorigin src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+    <!-- react DOM -->
+    <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+    <!-- babel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script>
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <div id="App"></div>    
+    <!-- this project is inspired from fee code camp.org 
+    front end project 
+        CHALLANGE : # 15
+    -->
+    <script type="text/babel">
+        const soundPad1 =  [{   soundName : 'Heater 1',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Heater-1.mp3' },
+                            {   soundName : 'Heater 2',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Heater-2.mp3' },
+                            {   soundName : 'Heater 3',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Heater-3.mp3' }, 
+                            {   soundName : 'Heater 4',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Heater-4_1.mp3' }, 
+                            {   soundName : 'Clap',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Heater-6.mp3' },
+                            {   soundName : 'Open-HH',
+                                url: 'https://s3.amazonaws.com/freecodecamp/drums/Dsc_Oh.mp3' },
+                            {   soundName : "Kick-n'-Hat",
+                                url: 'https://s3.amazonaws.com/freecodecamp/drums/Kick_n_Hat.mp3' },
+                            {   soundName : 'Kick',
+                                url: 'https://s3.amazonaws.com/freecodecamp/drums/RP4_KICK_1.mp3' },
+                            {   soundName : 'Closed-HH',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Cev_H2.mp3' }]
+
+        const soundPad2 =  [{   soundName : 'Chord-1',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Chord_1.mp3' },
+                            {   soundName : 'Chord-2',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Chord_2.mp3' },
+                            {   soundName : 'Chord-3',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Chord_3.mp3' },
+                            {   soundName : 'Shaker',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Give_us_a_light.mp3' },
+                            {   soundName : 'Open-HH',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Dry_Ohh.mp3' },
+                            {   soundName : 'Closed-HH',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Bld_H1.mp3' },
+                            {   soundName : 'Punchy-Kick',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/punchy_kick_1.mp3' },
+                            {   soundName : 'Side-Stick',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/side_stick_1.mp3' },
+                            {   soundName : 'Snare',
+                                url : 'https://s3.amazonaws.com/freecodecamp/drums/Brk_Snr.mp3' }]
+
+        class Keys extends React.Component{
+            render(){
+                return (
+                    <div className="container border border-danger mt-3">
+                        <h3 className="text-center my-3 text-primary">
+                            {this.props.soundName}
+                        </h3>
+                        <div className="container text-center my-5">
+                            <button onClick={this.props.play} soundId="0" className="p-4  mr-3 btn btn-outline-primary">q</button>
+                            <button onClick={this.props.play} soundId="1" className="p-4 mr-3 btn btn-outline-secondary">w</button>
+                            <button onClick={this.props.play} soundId="2" className="p-4 mr-3 btn btn-outline-warning">e</button>
+                        </div>
+                        <div className="container text-center my-5">   
+                            <button onClick={this.props.play} soundId="3" className="p-4 mr-3 btn btn-outline-success">a</button>
+                            <button onClick={this.props.play} soundId="4" className="p-4 mr-3 btn btn-outline-danger">s</button>
+                            <button onClick={this.props.play} soundId="5" className="p-4 mr-3 btn btn-outline-info">d</button>
+                        </div>
+                        <div className="container text-center my-5">   
+                            <button onClick={this.props.play} soundId="6" className="p-4 mr-3 btn btn-outline-dark">z</button>
+                            <button onClick={this.props.play} soundId="7" className="p-4 mr-3 btn btn-outline-success">x</button>
+                            <button onClick={this.props.play} soundId="8" className="p-4 mr-3">c</button>
+                        </div>
+                    </div>
+                )
+            }
+        }
+
+        class Borad extends React.Component{
+            constructor(){
+                super()
+                this.state = {
+                    pad1 : soundPad1,
+                    pad2 : soundPad2,
+                    bank : false,
+                    power : true,
+                    vol : 0.5
+                }
+            }
+ 
+            // get the sound url and name 
+            play = (event) => {
+                event.preventDefault()
+                console.log(event.target.getAttribute('soundId'),this.state.bank)
+                const id = event.target.getAttribute('soundId')
+                if (this.state.power){
+                    if (this.state.bank === false){
+                        let { soundName, url } = this.state.pad1[id]
+                        this.setSoundName(soundName)
+                        this.musicPlay(url)
+                    }else{
+                        let { soundName, url } = this.state.pad2[id]
+                        this.setSoundName(soundName)
+                        this.musicPlay(url)
+                    }
+                }
+                
+            } 
+
+            // play sound and control volume
+            musicPlay = (url) => {
+                let audio = new Audio(url)
+                audio.volume = this.state.vol
+                audio.play()
+            }
+            
+            // display sound name wih key press
+            setSoundName = (name) => { this.setState({ displaySoundName : name }) }
+
+            // change the pad sound 
+            bank = () => { this.setState({bank : !this.state.bank}) }
+
+            // controls the power to pad 
+            power = () => { this.setState({ power : !this.state.power }) }
+
+            // increse volume 
+            volInc = () => { 
+                if (this.state.vol < 0.9){
+                    this.setState({ vol : this.state.vol + 0.1 })
+                }
+            }
+
+            // decrese volume
+            volDec = () => { 
+                if (this.state.vol > 0.1){
+                    this.setState({ vol : this.state.vol - 0.1 })
+                }
+            }
+
+           render(){
+                return (
+                    <div className="container mt-3">
+                        <h1 className="text-center text-info">Drum Machine</h1>
+                        <div>   
+                            <Keys play={this.play} soundName={ this.state.displaySoundName }/>
+                        </div>
+                        <div className="container border border-primary mt-3 p-3">
+                            <div className="my-3">
+                                <h3 className="mb-3">volume : {Math.floor(this.state.vol * 100)}</h3>
+                                <button className="btn btn-info mr-3" onClick={this.volInc}> + </button>
+                                <button className="btn btn-outline-info" onClick={this.volDec}> - </button>
+                            </div>
+                            <button onClick={this.power} className="btn btn-danger">
+                                power - {this.state.power === true ? "ON" : "OFF"}
+                            </button>
+                            <hr />
+                            <button onClick={this.bank} className="btn btn-success">
+                                mode - {this.state.bank === false ? "HARD" : "SOFT"}
+                            </button>
+                        </div>
+                    </div>
+                )
+            }
+        }
+
+        class App extends React.Component{
+            render(){
+                return (
+                    <div>
+                        <Borad />
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<App />,document.getElementById('App'))
+    </script>
+</body>
+</html>
