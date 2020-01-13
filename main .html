@@ -12,6 +12,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.24.0/babel.js"></script>
     <!-- bootstrap -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <!-- page title -->
+    <title>Drum Machine</title>
 </head>
 <body>
     <div id="App"></div>    
@@ -100,7 +102,6 @@
             // get the sound url and name 
             play = (event) => {
                 event.preventDefault()
-                console.log(event.target.getAttribute('soundId'),this.state.bank)
                 const id = event.target.getAttribute('soundId')
                 if (this.state.power){
                     if (this.state.bank === false){
